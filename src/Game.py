@@ -3,18 +3,19 @@ from time import time
 from typing import NoReturn
 import pygame
 
-from constants import FPS, SCREEN_RESOLUTION
+from Display import Display
+from constants import FPS
 from levels.Level1 import Level1
 
 
 class Game:
-    def __init__(self):
+    def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption('JPWP Game')
         self.previous_tick_epoch: float = time()
         self.delta_time: float = 0.0
         self.delta_frames: int = 0
-        self.screen: pygame.Surface = pygame.display.set_mode(SCREEN_RESOLUTION)
+        self.display: pygame.Surface = Display().display
         self.clock: pygame.time.Clock = pygame.time.Clock()
         self.level = Level1()
 

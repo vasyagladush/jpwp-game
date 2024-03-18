@@ -9,8 +9,8 @@ class Vector:
 
     def __init__(self, x_or_position: int | Sequence[int], y: Optional[int] = None, /) -> None:
         if isinstance(x_or_position, int) and y is not None:
-            self.x = x_or_position
-            self.y = y
+            self.x: int = x_or_position
+            self.y: int = y
         elif isinstance(x_or_position, Sequence) and y is None:
             self.x = x_or_position[0]
             self.y = x_or_position[1]
