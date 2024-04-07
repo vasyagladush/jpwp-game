@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 import pygame
 
@@ -7,15 +8,32 @@ class ImageUtil:
         self.base_path = base_path
 
     @staticmethod
-    def load_image(path: str, colorkey: Optional[tuple[int, int, int]] = (0, 0, 0)) -> pygame.Surface:
-        image = pygame.image.load(path).convert()
-        image.set_colorkey(colorkey)
+    def load_image(path: str, convert_alpha: bool = False, colorkey: Optional[pygame.Color] = None) -> pygame.Surface:
+        """A static method that loads an image and converts it immediately.
+
+        Args:
+            ``path (str)``: path to the image
+            ``convert_alpha (bool, optional)``: Instead of pygame's ``convert()`` method, the ``convert_alpha()`` will be used on the image. Use for loading ``.png`` files with transparent background. Defaults to ``False``.
+            ``colorkey (Optional[pygame.Color], optional)``: Pixels of this color will become transparent. Not required for ``.png`` files with transparent backgrounds, instead set ``convert_alpha`` to ``True``. Defaults to ``None``.
+
+        Returns:
+            ``pygame.Surface``: The loaded and converted image
+        """
+        image: pygame.Surface = pygame.image.load(path).convert_alpha() if convert_alpha else pygame.image.load(path).convert()
+        if colorkey:
+            image.set_colorkey(colorkey)
         return image
     
-    def load(self, path: str, colorkey: Optional[tuple[int, int, int]] = (0, 0, 0)) -> pygame.Surface:
-        full_path = self.base_path
-        if not full_path.endswith('/'): 
-            full_path += '/'
-        full_path += path[1:] if path.startswith('/') else path 
-        
-        return ImageUtil.load_image(full_path, colorkey)
+    def load(self, path: str, convert_alpha: bool = False, colorkey: Optional[pygame.Color] = None) -> pygame.Surface:
+        """A method that loads an image from a path relative to the ``base_path`` of the ``ImageUtil`` object.
+
+        Args:
+            ``path (str)``: path to the image
+            ``convert_alpha (bool, optional)``: Instead of pygame's ``convert()`` method, the ``convert_alpha()`` will be used on the image. Use for loading ``.png`` files with transparent background. Defaults to ``False``.
+            ``colorkey (Optional[pygame.Color], optional)``: Pixels of this color will become transparent. Not required for ``.png`` files with transparent backgrounds, instead set ``convert_alpha`` to ``True``. Defaults to ``None``.
+
+        Returns:
+            ``pygame.Surface``: The loaded and converted image
+        """
+        full_path: str = os.path.join(self.base_path, path)
+        return ImageUtil.load_image(full_path, convert_alpha, colorkey)

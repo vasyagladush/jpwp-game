@@ -1,15 +1,19 @@
 import bisect
-from typing import Sequence
+from typing import Optional, Sequence
+
+import pygame
 
 from Actor import Actor
+from Display import Display
 from Renderable import Renderable
 from Vector import Vector
 
 
 class Level:
-    def __init__(self, actors: Sequence[Actor]) -> None:
+    def __init__(self, actors: Sequence[Actor], background_color: pygame.Color = pygame.Color(0, 0, 0)) -> None:
         self._actors: list[Actor] = list(actors)
         self._actors.sort(key=Renderable.get_rendering_order)
+        self.background_color: pygame.Color = background_color
 
     @property
     def actors(self) -> tuple[Actor, ...]:
@@ -24,5 +28,6 @@ class Level:
             actor.tick()
 
     def render_tick(self) -> None:
+        Display().display.fill(self.background_color)
         for actor in self._actors:
             actor.render()

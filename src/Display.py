@@ -1,9 +1,11 @@
+import __future__
 import pygame
 
 from constants import SCREEN_RESOLUTION
 
-"Singleton class that holds an instance of pygame.screen"
+
 class Display:
+    """Singleton class that holds an instance of pygame.screen"""
     _instance = None
 
     def __new__(cls, *args, **kwargs):
