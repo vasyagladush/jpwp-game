@@ -1,4 +1,3 @@
-import __future__
 import pygame
 
 from constants import SCREEN_RESOLUTION

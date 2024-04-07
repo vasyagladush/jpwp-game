@@ -19,7 +19,7 @@ class Level:
     def actors(self) -> tuple[Actor, ...]:
         return tuple(self._actors)
 
-    def addActor(self, new_actor: Actor) -> None:
+    def add_actor(self, new_actor: Actor) -> None:
         bisect.insort(self._actors, new_actor,
                       key=Renderable.get_rendering_order)
 

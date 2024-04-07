@@ -1,27 +1,23 @@
 import pygame
-from Actor import Actor
+from Animation import AnimationPlayMode
 from Level import Level
 from Vector import Vector
 from actors.Actor1 import Actor1
 
 from enum import Enum
 
-from utils.ImageUtil import ImageUtil
-
 
 class RenderingOrder(Enum):
     BACKGROUND = -1
-    PLAYABLEGROUND = 1
-    FOREGROUND = 2
+    PLAYABLEGROUND = 0
+    FOREGROUND = 1
 
 
 class Level1(Level):
     def __init__(self) -> None:
         super().__init__(
-            actors=[Actor(Vector(100, 100),  pygame.transform.scale(ImageUtil.load_image(
-                './assets/sprites/cherry/cherry-1.png', True), (200, 200)), RenderingOrder.BACKGROUND.value),
-                Actor(Vector(100, 150), pygame.transform.scale(ImageUtil.load_image(
-                    './assets/sprites/player/idle/player-idle-1.png', True), (200, 200)), RenderingOrder.PLAYABLEGROUND.value),
-                Actor(Vector(130, 250), pygame.transform.scale(ImageUtil.load_image(
-                    './assets/sprites/item-feedback/item-feedback-1.png', True, pygame.Color('white')), (200, 200)), RenderingOrder.FOREGROUND.value)],
+            actors=[Actor1(Vector(100, 100), RenderingOrder.BACKGROUND.value, AnimationPlayMode.STATIC_IMAGE),
+                    Actor1(
+                        Vector(180, 180), RenderingOrder.PLAYABLEGROUND.value, AnimationPlayMode.LOOP),
+                    Actor1(Vector(260, 260), RenderingOrder.FOREGROUND.value, AnimationPlayMode.ONCE)],
             background_color=pygame.Color(53, 81, 92))

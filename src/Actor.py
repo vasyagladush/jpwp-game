@@ -1,12 +1,13 @@
 from typing import Optional, override
 import pygame
+from Animation import Animation
 from Renderable import Renderable
 from Vector import Vector
 
 
 class Actor(Renderable):
-    def __init__(self, position: Vector, image: pygame.Surface, rendering_order: int) -> None:
-        super().__init__(image, rendering_order)
+    def __init__(self, position: Vector, animation: Animation, rendering_order: int) -> None:
+        super().__init__(animation, rendering_order)
         self.position: Vector = position
 
     def tick(self) -> None:
