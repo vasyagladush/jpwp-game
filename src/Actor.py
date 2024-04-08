@@ -1,19 +1,23 @@
-from typing import Optional, override
+from typing import Optional, final, override
 import pygame
 from Animation import Animation
 from Renderable import Renderable
 from Vector import Vector
 
 
-class Actor(Renderable):
-    def __init__(self, position: Vector, animation: Animation, rendering_order: int) -> None:
-        super().__init__(animation, rendering_order)
+class Actor():
+    def __init__(self, position: Vector, rendering_component: Renderable) -> None:
+        self.rendering_component: Renderable = rendering_component
         self.position: Vector = position
 
     def tick(self) -> None:
         print("Actor tick")
 
-    @override
+    @final
+    @staticmethod
+    def get_actor_rendering_order(el: 'Actor') -> int:
+        return el.rendering_component.rendering_order
+
     def render(self, position: Optional[Vector] = None) -> None:
         """A function to render the actor on the singleton Display object.
         If a position is passed in, it will render the actor at that position.
@@ -26,5 +30,5 @@ class Actor(Renderable):
             ``None``
         """
         if position is not None:
-            return super().render(position)
-        return super().render(self.position)
+            return self.rendering_component.render(position)
+        return self.rendering_component.render(self.position)

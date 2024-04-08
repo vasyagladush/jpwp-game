@@ -1,27 +1,18 @@
+from abc import ABC, abstractmethod
 from typing import final
-import pygame
-from Animation import Animation, AnimationController
-from Display import Display
 from Vector import Vector
 
 
-class Renderable:
-    def __init__(self, animation: Animation, rendering_order: int) -> None:
-        self._animation_controller: AnimationController = AnimationController(
-            animation)
+class Renderable(ABC):
+    def __init__(self, rendering_order: int) -> None:
         self.rendering_order: int = rendering_order
-        self._animation_controller.start()
 
-    @staticmethod
-    @final
-    def get_rendering_order(el: 'Renderable') -> int:
-        return el.rendering_order
+    # @staticmethod
+    # @final
+    # def get_rendering_order(el: 'Renderable') -> int:
+    #     return el.rendering_order
     
-    def set_animation(self, animation: Animation) -> None:
-        self._animation_controller.animation = animation
-
+    @abstractmethod
     def render(self, position: Vector) -> None:
-        self._animation_controller.update()
-        if self._animation_controller.current:
-            Display().display.blit(
-                self._animation_controller.get_current_image(), position.coordinates_to_tuple())
+        pass
+

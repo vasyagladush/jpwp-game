@@ -5,6 +5,7 @@ import pygame
 from Actor import Actor
 from Animation import Animation, AnimationFrame, AnimationPlayMode
 from Vector import Vector
+from components.render.RenderingComponent_WithAnimation import RenderingComponent_WithAnimation
 from utils.ImageUtil import ImageUtil
 
 
@@ -15,7 +16,9 @@ class Actor1(Actor):
         images: list[pygame.Surface] = [pygame.transform.scale(
             image, (200, 200)) for image in Actor1.image_util.load_from_dir('idle', True)]
         frames = tuple(map(lambda image: AnimationFrame(image, 300), images))
-        super().__init__(position, Animation(frames, animation_playmode), rendering_order)
+        rendering_component = RenderingComponent_WithAnimation(
+            Animation(frames, animation_playmode), rendering_order)
+        super().__init__(position, rendering_component)
 
     @override
     def tick(self) -> None:

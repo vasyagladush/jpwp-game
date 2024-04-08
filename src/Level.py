@@ -12,7 +12,7 @@ from Vector import Vector
 class Level:
     def __init__(self, actors: Sequence[Actor], background_color: pygame.Color = pygame.Color(0, 0, 0)) -> None:
         self._actors: list[Actor] = list(actors)
-        self._actors.sort(key=Renderable.get_rendering_order)
+        self._actors.sort(key=Actor.get_actor_rendering_order)
         self.background_color: pygame.Color = background_color
 
     @property
@@ -21,7 +21,7 @@ class Level:
 
     def add_actor(self, new_actor: Actor) -> None:
         bisect.insort(self._actors, new_actor,
-                      key=Renderable.get_rendering_order)
+                      key=Actor.get_actor_rendering_order)
 
     def tick(self) -> None:
         for actor in self._actors:
