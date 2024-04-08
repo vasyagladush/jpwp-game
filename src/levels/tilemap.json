@@ -23,5 +23,16 @@
     "type": "Ground",
     "z_index": 0,
     "position": { "x": 10, "y": 4 }
+  },
+  {
+    "type": "Fox",
+    "z_index": 1,
+    "position": { "x": 10, "y": 4 },
+    "transform": {
+      "size": { "x": 300, "y": 300 },
+      "flip_x": true,
+      "flip_y": true,
+      "angle": 150
+    }
   }
 ]

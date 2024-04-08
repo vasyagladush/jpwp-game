@@ -35,6 +35,17 @@ class Actor():
         if position is not None:
             return self.rendering_component.render(position)
         return self.rendering_component.render(self.position)
+    
+    def set_size(self, size: Vector) -> None:
+        self.rendering_component.set_size(size)
+        #TODO: add physical collision box set_size here
+
+    def set_angle(self, angle: int) -> None:
+        self.rendering_component.set_angle(angle)
+        #TODO: add physical collision box set_angle here
+
+    def flip(self, x: bool, y: bool) -> None:
+        self.rendering_component.flip(x, y)
 
 
 class Actor_TilemapCompatible(Actor, ABC):

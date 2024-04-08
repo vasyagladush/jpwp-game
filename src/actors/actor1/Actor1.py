@@ -14,7 +14,7 @@ class Actor1(Actor):
 
     def __init__(self, position: Vector, z_index: int, animation_playmode: AnimationPlayMode) -> None:
         images: list[pygame.Surface] = [pygame.transform.scale(
-            image, (200, 200)) for image in Actor1.image_util.load_from_dir('idle', True)]
+            image, (150, 150)) for image in Actor1.image_util.load_from_dir('idle', True)]
         frames = tuple(map(lambda image: AnimationFrame(image, 300), images))
         rendering_component = RenderingComponent_WithAnimation(
             Animation(frames, animation_playmode))
