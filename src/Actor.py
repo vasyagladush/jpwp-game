@@ -1,13 +1,15 @@
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import Optional, final, override
 import pygame
 from Animation import Animation
-from Renderable import Renderable
 from Vector import Vector
+from components.rendering.RenderingComponent import RenderingComponent
 
 
 class Actor():
-    def __init__(self, position: Vector, rendering_component: Renderable) -> None:
-        self.rendering_component: Renderable = rendering_component
+    def __init__(self, position: Vector, rendering_component: RenderingComponent) -> None:
+        self.rendering_component: RenderingComponent = rendering_component
         self.position: Vector = position
 
     def tick(self) -> None:
@@ -32,3 +34,11 @@ class Actor():
         if position is not None:
             return self.rendering_component.render(position)
         return self.rendering_component.render(self.position)
+
+
+class Actor_TilemapCompatible(Actor, ABC):
+    """An abstract class that represents an actor that can be used for a tilemap.
+    """
+    @abstractmethod
+    def __init__(self, position: Vector, rendering_order: int) -> None:
+        pass

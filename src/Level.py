@@ -5,7 +5,6 @@ import pygame
 
 from Actor import Actor
 from Display import Display
-from Renderable import Renderable
 from Vector import Vector
 
 

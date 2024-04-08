@@ -5,7 +5,7 @@ import pygame
 from Actor import Actor
 from Animation import Animation, AnimationFrame, AnimationPlayMode
 from Vector import Vector
-from components.render.RenderingComponent_WithAnimation import RenderingComponent_WithAnimation
+from components.rendering.RenderingComponent import RenderingComponent_WithAnimation
 from utils.ImageUtil import ImageUtil
 
 
