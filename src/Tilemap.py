@@ -13,7 +13,7 @@ class TilemapFileContentElementPosition(TypedDict):
 
 class TilemapFileContentElement(TypedDict):
     type: str
-    rendering_order: int
+    z_index: int
     position: TilemapFileContentElementPosition
 
 
@@ -32,7 +32,7 @@ class Tilemap:
 
             for tile in file_content:
                 actor_class: Type[Actor_TilemapCompatible] = type_to_actor_dict[tile["type"]]
-                actor = actor_class(Vector(tile['position']['x'] * tile_size, tile['position']['y'] * tile_size), tile['rendering_order'])
+                actor = actor_class(Vector(tile['position']['x'] * tile_size, tile['position']['y'] * tile_size), tile['z_index'])
                 actor.rendering_component.set_all_images_to_size(Vector(tile_size, tile_size))
                 self.actors.append(actor)
 

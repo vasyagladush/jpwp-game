@@ -13,12 +13,12 @@ class Block_TilemapCompatible(Actor_TilemapCompatible):
     image_util = ImageUtil('./assets/sprites')
 
     @override
-    def __init__(self,  position: Vector, rendering_order: int) -> None:
+    def __init__(self,  position: Vector, z_index: int) -> None:
         image: pygame.Surface = Block_TilemapCompatible.image_util.load(
             'block-big.png')
         rendering_component = RenderingComponent_WithStaticImage(
-            image, rendering_order)
-        Actor.__init__(self, position, rendering_component)
+            image)
+        Actor.__init__(self, position, rendering_component, z_index)
 
     @override
     def tick(self) -> None:

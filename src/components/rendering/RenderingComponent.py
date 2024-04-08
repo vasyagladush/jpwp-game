@@ -7,13 +7,13 @@ from abc import ABC, abstractmethod
 
 
 class RenderingComponent(ABC):
-    def __init__(self, rendering_order: int) -> None:
-        self.rendering_order: int = rendering_order
+    def __init__(self) -> None:
+        pass
 
     # @staticmethod
     # @final
-    # def get_rendering_order(el: 'Renderable') -> int:
-    #     return el.rendering_order
+    # def get_z_index(el: 'Renderable') -> int:
+    #     return el.z_index
 
     @abstractmethod
     def render(self, position: Vector) -> None:
@@ -25,8 +25,8 @@ class RenderingComponent(ABC):
 
 
 class RenderingComponent_WithStaticImage(RenderingComponent):
-    def __init__(self, image: pygame.Surface, rendering_order: int) -> None:
-        super().__init__(rendering_order)
+    def __init__(self, image: pygame.Surface) -> None:
+        super().__init__()
         self.image: pygame.Surface = image
 
     def set_image(self, image: pygame.Surface) -> None:
@@ -44,8 +44,8 @@ class RenderingComponent_WithStaticImage(RenderingComponent):
 
 
 class RenderingComponent_WithAnimation(RenderingComponent):
-    def __init__(self, animation: Animation, rendering_order: int) -> None:
-        super().__init__(rendering_order)
+    def __init__(self, animation: Animation) -> None:
+        super().__init__()
         self._animation_controller: AnimationController = AnimationController(
             animation)
         self._animation_controller.start()

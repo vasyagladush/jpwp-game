@@ -1,27 +1,27 @@
 [
   {
     "type": "Ground",
-    "rendering_order": 0,
+    "z_index": 0,
     "position": { "x": 0, "y": 0 }
   },
   {
     "type": "Ground",
-    "rendering_order": 0,
+    "z_index": 0,
     "position": { "x": 6, "y": 2 }
   },
   {
     "type": "Ground",
-    "rendering_order": 0,
+    "z_index": 0,
     "position": { "x": 7, "y": 2 }
   },
   {
     "type": "Ground",
-    "rendering_order": 0,
+    "z_index": 0,
     "position": { "x": 8, "y": 2 }
   },
   {
     "type": "Ground",
-    "rendering_order": 0,
+    "z_index": 0,
     "position": { "x": 10, "y": 4 }
   }
 ]

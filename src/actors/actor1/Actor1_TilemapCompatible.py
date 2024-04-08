@@ -13,13 +13,13 @@ class Actor1_TilemapCompatible(Actor_TilemapCompatible):
     image_util = ImageUtil('./assets/sprites/player')
 
     @override
-    def __init__(self,  position: Vector, rendering_order: int) -> None:
+    def __init__(self,  position: Vector, z_index: int) -> None:
         images: list[pygame.Surface] = [pygame.transform.scale(
             image, (200, 200)) for image in Actor1_TilemapCompatible.image_util.load_from_dir('idle', True)]
         frames = tuple(map(lambda image: AnimationFrame(image, 300), images))
         rendering_component = RenderingComponent_WithAnimation(
-            Animation(frames, AnimationPlayMode.LOOP), rendering_order)
-        Actor.__init__(self, position, rendering_component)
+            Animation(frames, AnimationPlayMode.LOOP))
+        Actor.__init__(self, position, rendering_component, z_index)
 
     @override
     def tick(self) -> None:

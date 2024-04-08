@@ -8,17 +8,18 @@ from components.rendering.RenderingComponent import RenderingComponent
 
 
 class Actor():
-    def __init__(self, position: Vector, rendering_component: RenderingComponent) -> None:
-        self.rendering_component: RenderingComponent = rendering_component
+    def __init__(self, position: Vector, rendering_component: RenderingComponent, z_index: int) -> None:
         self.position: Vector = position
+        self.rendering_component: RenderingComponent = rendering_component
+        self.z_index: int = z_index
 
     def tick(self) -> None:
         print("Actor tick")
 
     @final
     @staticmethod
-    def get_actor_rendering_order(el: 'Actor') -> int:
-        return el.rendering_component.rendering_order
+    def get_actor_z_index(el: 'Actor') -> int:
+        return el.z_index
 
     def render(self, position: Optional[Vector] = None) -> None:
         """A function to render the actor on the singleton Display object.
@@ -40,5 +41,5 @@ class Actor_TilemapCompatible(Actor, ABC):
     """An abstract class that represents an actor that can be used for a tilemap.
     """
     @abstractmethod
-    def __init__(self, position: Vector, rendering_order: int) -> None:
+    def __init__(self, position: Vector, z_index: int) -> None:
         pass
