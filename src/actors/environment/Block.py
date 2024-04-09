@@ -3,7 +3,6 @@ from typing import override
 import pygame
 
 from Actor import Actor, Actor_TilemapCompatible
-from Animation import Animation, AnimationFrame, AnimationPlayMode
 from Vector import Vector
 from components.rendering.RenderingComponent import RenderingComponent_WithStaticImage
 from utils.ImageUtil import ImageUtil

@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Optional, final, override
 import pygame
-from Animation import Animation
 from Vector import Vector
 from components.rendering.RenderingComponent import RenderingComponent
 
@@ -12,9 +11,21 @@ class Actor():
         self.position: Vector = position
         self.rendering_component: RenderingComponent = rendering_component
         self.z_index: int = z_index
+        self.components: list[ActorComponent] = []
+        #TODO: add transform class that will hold position, rotation and maybe flip?, maybe scale?
+        #TODO: use those in class __init__
+        #TODO: maybe rename rendering_component to something else, maybe it's not even a component
+        #TODO: if needed, add Component class that will be able to subscribe to events of its owner like transformChange
+        #TODO: optimize, check for necessarry del statements
+        #TODO: check that private fields are not accessed where they should not be
+        #TODO: check if we could load images only once (as a class property) instead of loading it every time a new instance is constructed
+        #TODO: camera (a smaller window is a camera that only shows what's inside its borders, a bigger window is where objects are rendered, add level camera borders)
+        #TODO: handle different screen resolutions, resizing maybe too 
+        #TODO: add a guide on how to use the code with python3.11 or less if someone has problems installing python3.12
 
     def tick(self) -> None:
-        print("Actor tick")
+        for component in self.components:
+            component.tick()
 
     @final
     @staticmethod
@@ -53,4 +64,12 @@ class Actor_TilemapCompatible(Actor, ABC):
     """
     @abstractmethod
     def __init__(self, position: Vector, z_index: int) -> None:
+        pass
+
+
+class ActorComponent(ABC):
+    def __init__(self, owned_by: Actor) -> None:
+        self.owned_by: Actor = owned_by
+    @abstractmethod
+    def tick(self) -> None:
         pass

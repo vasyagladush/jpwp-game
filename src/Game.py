@@ -5,7 +5,7 @@ import pygame
 from Clock import Clock
 from Display import Display
 from constants import FPS
-from levels.Level1 import Level1
+from levels.level1.Level1 import Level1
 
 
 class Game:

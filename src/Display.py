@@ -10,7 +10,7 @@ class Display:
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super().__new__(cls, *args, **kwargs)
-            cls._instance.display = pygame.display.set_mode(SCREEN_RESOLUTION)
+            cls._instance.display = pygame.display.set_mode(SCREEN_RESOLUTION, pygame.SCALED | pygame.FULLSCREEN)
         return cls._instance
 
     @property

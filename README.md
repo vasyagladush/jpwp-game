@@ -3,7 +3,7 @@
 
 **How to setup a virtual environment**:
 ```console
-// create a virual environment under a folder named 'venv'
+// create a virtual environment under a folder named 'venv'
 $ python3.12 -m venv venv 
 // activate the venv (command for Linux, Windows' command for activation might differ)
 $ source ./venv/bin/activate 
@@ -17,4 +17,3 @@ $ source ./venv/bin/activate
 - python3.12 venv: `sudo apt install python3.12-venv`
 - pygame-ce: `pip3.12 install pygame-ce`
 If you face an error: `AttributeError: module 'pkgutil' has no attribute 'ImpImporter'. Did you mean: 'zipimporter'?`, try `python3.12 -m pip install --upgrade setuptools`
- 
