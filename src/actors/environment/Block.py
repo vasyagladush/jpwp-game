@@ -21,5 +21,5 @@ class Block_TilemapCompatible(Actor_TilemapCompatible):
 
     @override
     def tick(self) -> None:
-        pass
+        super().tick()
         # print('Actor1 tick')

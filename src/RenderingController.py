@@ -15,6 +15,10 @@ class RenderingController(ABC):
     # def get_z_index(el: 'Renderable') -> int:
     #     return el.z_index
 
+    @staticmethod
+    def blit(image: pygame.Surface, position: Vector):
+        Display().level_surface.blit(image, position.coordinates_to_tuple())
+
     @abstractmethod
     def render(self, position: Vector) -> None:
         pass
@@ -42,8 +46,8 @@ class RenderingController_WithStaticImage(RenderingController):
 
     @override
     def render(self, position: Vector) -> None:
-        Display().display.blit(
-            self.image, position.coordinates_to_tuple())
+        RenderingController.blit(
+            self.image, position)
 
     @override
     def set_size(self, size: Vector) -> None:
@@ -75,8 +79,8 @@ class RenderingController_WithAnimation(RenderingController):
     def render(self, position: Vector) -> None:
         self._animation_controller.update()
         if self._animation_controller.current:
-            Display().display.blit(
-                self._animation_controller.get_current_image(), position.coordinates_to_tuple())
+            RenderingController.blit(
+                self._animation_controller.get_current_image(), position)
 
     @override
     def set_size(self, size: Vector) -> None:
@@ -99,5 +103,5 @@ class RenderingController_WithAnimation(RenderingController):
             frame.image, x, y), frame.duration) for frame in self._animation_controller.animation.frames]
         self._animation_controller.animation = Animation(
             flipped_frames, self._animation_controller.animation.playmode)
-        
-    #TODO: create a method set_transformation(self, size, angle, flip)
+
+    # TODO: create a method set_transformation(self, size, angle, flip)
