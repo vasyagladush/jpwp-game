@@ -3,18 +3,18 @@ from dataclasses import dataclass
 from typing import Optional, final, override
 import pygame
 from Vector import Vector
-from components.rendering.RenderingComponent import RenderingComponent
+from RenderingController import RenderingController
 
 
 class Actor():
-    def __init__(self, position: Vector, rendering_component: RenderingComponent, z_index: int) -> None:
+    def __init__(self, position: Vector, rendering_controller: RenderingController, z_index: int) -> None:
         self.position: Vector = position
-        self.rendering_component: RenderingComponent = rendering_component
+        self.rendering_controller: RenderingController = rendering_controller
         self.z_index: int = z_index
         self.components: list[ActorComponent] = []
         #TODO: add transform class that will hold position, rotation and maybe flip?, maybe scale?
         #TODO: use those in class __init__
-        #TODO: maybe rename rendering_component to something else, maybe it's not even a component
+        #TODO: maybe rename rendering_controller to something else, maybe it's not even a component
         #TODO: if needed, add Component class that will be able to subscribe to events of its owner like transformChange
         #TODO: optimize, check for necessarry del statements
         #TODO: check that private fields are not accessed where they should not be
@@ -44,19 +44,19 @@ class Actor():
             ``None``
         """
         if position is not None:
-            return self.rendering_component.render(position)
-        return self.rendering_component.render(self.position)
+            return self.rendering_controller.render(position)
+        return self.rendering_controller.render(self.position)
     
     def set_size(self, size: Vector) -> None:
-        self.rendering_component.set_size(size)
+        self.rendering_controller.set_size(size)
         #TODO: add physical collision box set_size here
 
     def set_angle(self, angle: int) -> None:
-        self.rendering_component.set_angle(angle)
+        self.rendering_controller.set_angle(angle)
         #TODO: add physical collision box set_angle here
 
     def flip(self, x: bool, y: bool) -> None:
-        self.rendering_component.flip(x, y)
+        self.rendering_controller.flip(x, y)
 
 
 class Actor_TilemapCompatible(Actor, ABC):

@@ -5,7 +5,7 @@ import pygame
 from Actor import Actor
 from Animation import Animation, AnimationFrame, AnimationPlayMode
 from Vector import Vector
-from components.rendering.RenderingComponent import RenderingComponent_WithAnimation
+from RenderingController import RenderingController_WithAnimation
 from utils.ImageUtil import ImageUtil
 
 
@@ -16,9 +16,9 @@ class Fox(Actor):
         images: list[pygame.Surface] = [pygame.transform.scale(
             image, (150, 150)) for image in Fox.image_util.load_from_dir('idle', True)]
         frames = tuple(map(lambda image: AnimationFrame(image, 150), images))
-        rendering_component = RenderingComponent_WithAnimation(
+        rendering_controller = RenderingController_WithAnimation(
             Animation(frames, animation_playmode))
-        super().__init__(position, rendering_component, z_index)
+        super().__init__(position, rendering_controller, z_index)
 
     @override
     def tick(self) -> None:

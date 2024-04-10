@@ -6,7 +6,7 @@ from Vector import Vector
 from abc import ABC, abstractmethod
 
 
-class RenderingComponent(ABC):
+class RenderingController(ABC):
     def __init__(self) -> None:
         pass
 
@@ -32,7 +32,7 @@ class RenderingComponent(ABC):
         pass
 
 
-class RenderingComponent_WithStaticImage(RenderingComponent):
+class RenderingController_WithStaticImage(RenderingController):
     def __init__(self, image: pygame.Surface) -> None:
         super().__init__()
         self.image: pygame.Surface = image
@@ -61,7 +61,7 @@ class RenderingComponent_WithStaticImage(RenderingComponent):
             self.image, x, y)
 
 
-class RenderingComponent_WithAnimation(RenderingComponent):
+class RenderingController_WithAnimation(RenderingController):
     def __init__(self, animation: Animation) -> None:
         super().__init__()
         self._animation_controller: AnimationController = AnimationController(
