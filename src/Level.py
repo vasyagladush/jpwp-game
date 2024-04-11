@@ -31,6 +31,6 @@ class Level:
             actor.tick()
 
     def render_tick(self) -> None:
-        Display().level_surface.fill(self.background_color)
+        Display().level_surface.holded_ref.fill(self.background_color)
         for actor in self._actors:
             actor.render()
