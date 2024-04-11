@@ -5,19 +5,15 @@ from Display import Display
 from Vector import Vector
 from abc import ABC, abstractmethod
 
+from utils.Pointer import Pointer
+
 
 class RenderingController(ABC):
-    def __init__(self) -> None:
-        pass
+    def __init__(self, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
+        self.surface: Pointer[pygame.Surface] = surface
 
-    # @staticmethod
-    # @final
-    # def get_z_index(el: 'Renderable') -> int:
-    #     return el.z_index
-
-    @staticmethod
-    def blit(image: pygame.Surface, position: Vector):
-        Display().level_surface.blit(image, position.coordinates_to_tuple())
+    def blit(self, image: pygame.Surface, position: Vector):
+        self.surface.holded_ref.blit(image, position.coordinates_to_tuple())
 
     @abstractmethod
     def render(self, position: Vector) -> None:
@@ -37,8 +33,8 @@ class RenderingController(ABC):
 
 
 class RenderingController_WithStaticImage(RenderingController):
-    def __init__(self, image: pygame.Surface) -> None:
-        super().__init__()
+    def __init__(self, image: pygame.Surface, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
+        super().__init__(surface)
         self.image: pygame.Surface = image
 
     def set_image(self, image: pygame.Surface) -> None:
@@ -46,7 +42,7 @@ class RenderingController_WithStaticImage(RenderingController):
 
     @override
     def render(self, position: Vector) -> None:
-        RenderingController.blit(
+        self.blit(
             self.image, position)
 
     @override
@@ -66,8 +62,8 @@ class RenderingController_WithStaticImage(RenderingController):
 
 
 class RenderingController_WithAnimation(RenderingController):
-    def __init__(self, animation: Animation) -> None:
-        super().__init__()
+    def __init__(self, animation: Animation, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
+        super().__init__(surface)
         self._animation_controller: AnimationController = AnimationController(
             animation)
         self._animation_controller.start()
@@ -79,7 +75,7 @@ class RenderingController_WithAnimation(RenderingController):
     def render(self, position: Vector) -> None:
         self._animation_controller.update()
         if self._animation_controller.current:
-            RenderingController.blit(
+            self.blit(
                 self._animation_controller.get_current_image(), position)
 
     @override

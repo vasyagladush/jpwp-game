@@ -1,7 +1,11 @@
+from os import access, login_tty
 import sys
 from typing import NoReturn
 import pygame
 
+from Animation import Animation, AnimationController, AnimationFrame
+from HUD import HUD
+from utils.ImageUtil import ImageUtil
 from Clock import Clock
 from Display import Display
 from Level import Level
@@ -18,6 +22,7 @@ class Game:
         self.clock: Clock = Clock()
         self.player: Player = Player()
         self.level = Level1()
+        self.hud = HUD()
 
     def run(self) -> NoReturn:
         while True:
@@ -26,18 +31,25 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
+            # Tick
             self.level.tick()
-            self.level.render_tick()
 
+            # Render tick
+            self.level.render_tick()
+            self.hud.render_tick()
+
+            # Camera surface offset update
             player_position: tuple[int,
                                    int] = self.player.player.position.coordinates_to_tuple()
             display_size: tuple[int, int] = self.display.display.get_size()
             self.display.update_camera_offset((player_position[0] - (int)(
-                # TESTING
                 display_size[0] / 2), player_position[1] - (int)(display_size[1] / 2)))
+            
+            # Blitting on display
             self.display.display.blit(self.display.camera_surface, (0, 0))
-
+            self.display.display.blit(self.display.hud_surface, (0, 0))
             pygame.display.update()
+            
             self.clock.clock.tick(FPS)
 
     @property
