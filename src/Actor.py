@@ -1,23 +1,27 @@
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from functools import wraps
-from typing import Callable, Dict, Optional, final
+from typing import Callable, Dict, Generic, Optional, TypeVar, final
 from Vector import Vector
 from RenderingController import RenderingController
 from utils.EventEmitter import EventEmitter
 
+RenderingControllerType = TypeVar(
+    'RenderingControllerType', bound=RenderingController)
+
+
 class ActorEventType(Enum):
-        SIZE_CHANGED = auto()
-        ANGLE_CHANGED = auto()
-        FLIPPED = auto()
+    SIZE_CHANGED = auto()
+    ANGLE_CHANGED = auto()
+    FLIPPED = auto()
 
-class Actor(EventEmitter[ActorEventType]):
-    
 
-    def __init__(self, position: Vector, rendering_controller: RenderingController, z_index: int) -> None:
+class Actor(Generic[RenderingControllerType], EventEmitter[ActorEventType]):
+
+    def __init__(self, position: Vector[int], rendering_controller: RenderingControllerType, z_index: int) -> None:
         super().__init__(ActorEventType)
-        self.position: Vector = position
-        self.rendering_controller: RenderingController = rendering_controller
+        self.position: Vector[int] = position
+        self.rendering_controller: RenderingControllerType = rendering_controller
         self.z_index: int = z_index
         self.components: list[ActorComponent] = []
 
@@ -53,10 +57,8 @@ class Actor(EventEmitter[ActorEventType]):
             return self.rendering_controller.render(position)
         return self.rendering_controller.render(self.position)
 
-    
-
     @EventEmitter.emits(ActorEventType.SIZE_CHANGED)
-    def set_size(self, size: Vector) -> None:
+    def set_size(self, size: Vector[int]) -> None:
         self.rendering_controller.set_size(size)
         # TODO: add physical collision box set_size here
 
@@ -74,7 +76,7 @@ class Actor_TilemapCompatible(Actor, ABC):
     """An abstract class that represents an actor that can be used for a tilemap.
     """
     @abstractmethod
-    def __init__(self, position: Vector, z_index: int) -> None:
+    def __init__(self, position: Vector[int], z_index: int) -> None:
         pass
 
 

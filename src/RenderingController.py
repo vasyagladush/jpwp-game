@@ -12,15 +12,15 @@ class RenderingController(ABC):
     def __init__(self, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
         self.surface: Pointer[pygame.Surface] = surface
 
-    def blit(self, image: pygame.Surface, position: Vector):
+    def blit(self, image: pygame.Surface, position: Vector[int]) -> None:
         self.surface.holded_ref.blit(image, position.coordinates_to_tuple())
 
     @abstractmethod
-    def render(self, position: Vector) -> None:
+    def render(self, position: Vector[int]) -> None:
         pass
 
     @abstractmethod
-    def set_size(self, size: Vector) -> None:
+    def set_size(self, size: Vector[int]) -> None:
         pass
 
     @abstractmethod
@@ -29,6 +29,10 @@ class RenderingController(ABC):
 
     @abstractmethod
     def flip(self, x: bool, y: bool) -> None:
+        pass
+
+    @abstractmethod
+    def get_current_size(self) -> tuple[int, int]:
         pass
 
 
@@ -41,12 +45,12 @@ class RenderingController_WithStaticImage(RenderingController):
         self.image = image
 
     @override
-    def render(self, position: Vector) -> None:
+    def render(self, position: Vector[int]) -> None:
         self.blit(
             self.image, position)
 
     @override
-    def set_size(self, size: Vector) -> None:
+    def set_size(self, size: Vector[int]) -> None:
         self.image = pygame.transform.scale(
             self.image, size.coordinates_to_tuple())
 
@@ -60,6 +64,10 @@ class RenderingController_WithStaticImage(RenderingController):
         self.image = pygame.transform.flip(
             self.image, x, y)
 
+    @override
+    def get_current_size(self) -> tuple[int, int]:
+        return self.image.get_size()
+
 
 class RenderingController_WithAnimation(RenderingController):
     def __init__(self, animation: Animation, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
@@ -72,14 +80,14 @@ class RenderingController_WithAnimation(RenderingController):
         self._animation_controller.animation = animation
 
     @override
-    def render(self, position: Vector) -> None:
+    def render(self, position: Vector[int]) -> None:
         self._animation_controller.update()
         if self._animation_controller.current:
             self.blit(
                 self._animation_controller.get_current_image(), position)
 
     @override
-    def set_size(self, size: Vector) -> None:
+    def set_size(self, size: Vector[int]) -> None:
         # TODO: maybe add del statements on old frames and animation
         resized_frames: list[AnimationFrame] = [AnimationFrame(pygame.transform.scale(
             frame.image, size.coordinates_to_tuple()), frame.duration) for frame in self._animation_controller.animation.frames]
@@ -99,5 +107,9 @@ class RenderingController_WithAnimation(RenderingController):
             frame.image, x, y), frame.duration) for frame in self._animation_controller.animation.frames]
         self._animation_controller.animation = Animation(
             flipped_frames, self._animation_controller.animation.playmode)
+
+    @override
+    def get_current_size(self) -> tuple[int, int]:
+        return self._animation_controller.current.get_size()
 
     # TODO: create a method set_transformation(self, size, angle, flip)

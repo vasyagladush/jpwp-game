@@ -14,7 +14,6 @@ class Player():
         if cls._instance is None:
             cls._instance = super().__new__(cls, *args, **kwargs)
             cls._instance.player = Fox(Vector(0, 0), 0)
-            cls._instance.player.components.append(MovementComponent(cls._instance.player))
             # cls._instance.player.components.append(GravityComponent(cls._instance.player))
         return cls._instance
 

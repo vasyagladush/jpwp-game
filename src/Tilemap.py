@@ -47,7 +47,7 @@ class Tilemap:
                 # Editing the actor's transformation
                 if 'transform' in tile and tile['transform'] is not None:
                     transform: TilemapFileContentElementTransform = tile['transform']
-                    actor_size_vector: Vector = Vector(transform['size']['x'], transform['size']['x']) if 'size' in transform and transform['size'] is not None else Vector(
+                    actor_size_vector: Vector[int] = Vector(transform['size']['x'], transform['size']['x']) if 'size' in transform and transform['size'] is not None else Vector(
                         tile_size, tile_size)
                     actor.set_size(actor_size_vector)
                     flip_x: bool = transform['flip_x'] if 'flip_x' in transform and transform['flip_x'] is not None else False

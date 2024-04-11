@@ -9,14 +9,12 @@ from utils.ImageUtil import ImageUtil
 
 
 class Block_TilemapCompatible(Actor_TilemapCompatible):
-    image_util = ImageUtil('./assets/sprites')
+    image = ImageUtil.load_image('assets/sprites/block-big.png')
 
     @override
-    def __init__(self,  position: Vector, z_index: int) -> None:
-        image: pygame.Surface = Block_TilemapCompatible.image_util.load(
-            'block-big.png')
+    def __init__(self,  position: Vector[int], z_index: int) -> None:
         rendering_controller = RenderingController_WithStaticImage(
-            image)
+            Block_TilemapCompatible.image)
         Actor.__init__(self, position, rendering_controller, z_index)
 
     @override

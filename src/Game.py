@@ -42,14 +42,17 @@ class Game:
             player_position: tuple[int,
                                    int] = self.player.player.position.coordinates_to_tuple()
             display_size: tuple[int, int] = self.display.display.get_size()
-            self.display.update_camera_offset((player_position[0] - (int)(
-                display_size[0] / 2), player_position[1] - (int)(display_size[1] / 2)))
-            
+            current_player_image_size: tuple[int,
+                                             int] = self.player.player.rendering_controller.get_current_size()
+            new_camera_offset: tuple[int, int] = ((int)(player_position[0] - (
+                (display_size[0] - current_player_image_size[0]) / 2)), (int)(player_position[1] - ((display_size[1] - current_player_image_size[1]) / 2)))
+            self.display.update_camera_offset(new_camera_offset)
+
             # Blitting on display
             self.display.display.blit(self.display.camera_surface, (0, 0))
             self.display.display.blit(self.display.hud_surface, (0, 0))
             pygame.display.update()
-            
+
             self.clock.clock.tick(FPS)
 
     @property
