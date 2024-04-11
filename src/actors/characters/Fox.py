@@ -2,17 +2,17 @@ from typing import override
 
 import pygame
 
-from Actor import Actor
 from Animation import Animation, AnimationFrame, AnimationPlayMode
+from Character import Character
 from Vector import Vector
 from RenderingController import RenderingController_WithAnimation
 from utils.ImageUtil import ImageUtil
 
 
-class Fox(Actor):
+class Fox(Character):
     image_util = ImageUtil('./assets/sprites/player')
 
-    def __init__(self, position: Vector, z_index: int, animation_playmode: AnimationPlayMode) -> None:
+    def __init__(self, position: Vector, z_index: int, animation_playmode: AnimationPlayMode = AnimationPlayMode.LOOP) -> None:
         images: list[pygame.Surface] = [pygame.transform.scale(
             image, (150, 150)) for image in Fox.image_util.load_from_dir('idle', True)]
         frames = tuple(map(lambda image: AnimationFrame(image, 150), images))

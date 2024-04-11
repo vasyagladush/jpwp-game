@@ -5,7 +5,8 @@ import pygame
 from Clock import Clock
 from Display import Display
 from Level import Level
-from constants import FPS
+from Player import Player
+from constants import FPS, SCREEN_RESOLUTION
 from levels.level1.Level1 import Level1
 
 
@@ -15,6 +16,7 @@ class Game:
         pygame.display.set_caption('JPWP Game')
         self.display: Display = Display()
         self.clock: Clock = Clock()
+        self.player: Player = Player()
         self.level = Level1()
 
     def run(self) -> NoReturn:
@@ -27,8 +29,12 @@ class Game:
             self.level.tick()
             self.level.render_tick()
 
-            # self.display.update_camera_offset((self.display.camera_surface.get_offset()[ # TESTING
-            #                                     0] + 5, self.display.camera_surface.get_offset()[1] + 5)) # TESTING
+            player_position: tuple[int,
+                                   int] = self.player.player.position.coordinates_to_tuple()
+            display_size: tuple[int, int] = self.display.display.get_size()
+            self.display.update_camera_offset((player_position[0] - (int)(
+                # TESTING
+                display_size[0] / 2), player_position[1] - (int)(display_size[1] / 2)))
             self.display.display.blit(self.display.camera_surface, (0, 0))
 
             pygame.display.update()
@@ -41,6 +47,7 @@ class Game:
     @level.setter
     def level(self, value) -> None:
         self._level: Level = value
+        self.player.player.position = self._level.player_start_position
         self.display.set_level_surface_size(self._level.render_area_size)
 
 

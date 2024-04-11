@@ -23,4 +23,4 @@ class Level1(Level):
         super().__init__(
             actors=Tilemap1().actors + [flipping_fox, Fox(Vector(120, 120), RenderingOrder.BACKGROUND.value, AnimationPlayMode.STATIC_IMAGE),
                                         Fox(Vector(220, 260), RenderingOrder.FOREGROUND.value, AnimationPlayMode.ONCE)],
-            background_color=pygame.Color(53, 81, 92), render_area_size=(4000, 4000))
+            background_color=pygame.Color(53, 81, 92), render_area_size=(4000, 4000), player_start_position=Vector(1000, 1000))
