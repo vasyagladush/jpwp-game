@@ -1,6 +1,6 @@
 import pygame
 
-from Actor import Actor, ActorComponent
+from Actor import Actor, ActorComponent, ActorEventType
 from actors.characters.Fox import Fox
 
 
@@ -9,7 +9,7 @@ class TestComponent(ActorComponent):
         super().__init__(owned_by)
         self.last_flip_time: int = 0
         self.owned_by.add_event_subscription(
-            self.owned_by.EventType.FLIPPED, self.on_flip)
+            self.owned_by._event_enum.FLIPPED, self.on_flip)
 
     def tick(self) -> None:
         now = pygame.time.get_ticks()
@@ -18,5 +18,5 @@ class TestComponent(ActorComponent):
             self.owned_by.flip(True, False)
         pass
 
-    def on_flip(self) -> None:
+    def on_flip(self, event_type: ActorEventType) -> None:
         print(f"flipped at {pygame.time.get_ticks() / 1000}s")
