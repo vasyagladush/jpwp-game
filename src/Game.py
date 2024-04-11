@@ -18,6 +18,7 @@ class Game:
     def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption('JPWP Game')
+        pygame.mouse.set_visible(False)
         self.display: Display = Display()
         self.clock: Clock = Clock()
         self.player: Player = Player()
