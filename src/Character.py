@@ -27,7 +27,7 @@ class Character(Actor[RenderingController_WithAnimation], ABC):
         rendering_controller: RenderingController_WithAnimation = RenderingController_WithAnimation(
             self.__class__.idle_animation)
         super().__init__(position, rendering_controller, z_index)
-        self.movement_component = MovementComponent(self, movement_speed)
+        self.movement_component: MovementComponent = MovementComponent(self, movement_speed)
         self.components.append(self.movement_component)
 
     def set_animation(self, animation: Animation) -> None:

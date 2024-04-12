@@ -80,9 +80,10 @@ class Actor_TilemapCompatible(Actor, ABC):
         pass
 
 
-class ActorComponent(ABC):
-    def __init__(self, owned_by: Actor) -> None:
-        self.owned_by: Actor = owned_by
+ActorComponentOwnerType = TypeVar('ActorComponentOwnerType', bound=Actor)
+class ActorComponent(Generic[ActorComponentOwnerType], ABC):
+    def __init__(self, owned_by: ActorComponentOwnerType) -> None:
+        self.owned_by: ActorComponentOwnerType = owned_by
 
     @abstractmethod
     def tick(self) -> None:

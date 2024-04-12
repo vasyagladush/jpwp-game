@@ -1,7 +1,8 @@
 from Actor import ActorComponent
+from Character import Character
 from Vector import Vector
 
-class GravityComponent(ActorComponent):
+class GravityComponent(ActorComponent[Character]):
     def __init__(self, owned_by, gravity: int = 1, max_fall_speed: int = 10):
         super().__init__(owned_by)
         self.gravity = gravity

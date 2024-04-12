@@ -4,7 +4,7 @@ from Actor import Actor, ActorComponent, ActorEventType
 from actors.characters.Fox import Fox
 
 
-class TestComponent(ActorComponent):
+class TestComponent(ActorComponent[Actor]):
     def __init__(self, owned_by: Fox) -> None:
         super().__init__(owned_by)
         self.last_flip_time: int = 0

@@ -1,10 +1,10 @@
 import pygame
-from Actor import ActorComponent
+from Actor import Actor, ActorComponent
 from Clock import Clock
 from Vector import Vector
 
 
-class MovementComponent(ActorComponent):
+class MovementComponent(ActorComponent[Actor]):
     def __init__(self, owned_by, movement_speed: int = 300):
         """_summary_
 
