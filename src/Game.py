@@ -5,6 +5,7 @@ import pygame
 
 from Animation import Animation, AnimationController, AnimationFrame
 from HUD import HUD
+from InputController import InputController
 from utils.ImageUtil import ImageUtil
 from Clock import Clock
 from Display import Display
@@ -21,12 +22,15 @@ class Game:
         pygame.mouse.set_visible(False)
         self.display: Display = Display()
         self.clock: Clock = Clock()
+        self.input_controller: InputController = InputController()
         self.player: Player = Player()
         self.level = Level1()
-        self.hud = HUD()
+        self.hud: HUD = HUD()
 
     def run(self) -> NoReturn:
         while True:
+            self.input_controller.tick()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
