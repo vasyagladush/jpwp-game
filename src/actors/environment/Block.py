@@ -12,7 +12,7 @@ class Block_TilemapCompatible(Actor_TilemapCompatible):
     image = ImageUtil.load_image('assets/sprites/block-big.png')
 
     @override
-    def __init__(self,  position: Vector[int], z_index: int) -> None:
+    def __init__(self,  position: Vector, z_index: int) -> None:
         rendering_controller = RenderingController_WithStaticImage(
             Block_TilemapCompatible.image)
         Actor.__init__(self, position, rendering_controller, z_index)

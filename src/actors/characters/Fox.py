@@ -20,7 +20,7 @@ class Fox(Character):
     falling_animation = Animation(tuple(map(lambda image: AnimationFrame(image, 150), [pygame.transform.scale(
         image, (150, 150)) for image in image_util.load_from_dir('falling', True)])))
 
-    def __init__(self, position: Vector[int], z_index: int, movement_speed: int = 300) -> None:
+    def __init__(self, position: Vector, z_index: int, movement_speed: int = 300) -> None:
         super().__init__(position, z_index, movement_speed)
 
     @override

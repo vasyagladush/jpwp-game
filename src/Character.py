@@ -21,7 +21,7 @@ class Character(Actor[RenderingController_WithAnimation], ABC):
     jumping_animation: Animation
     falling_animation: Animation
 
-    def __init__(self, position: Vector[int], z_index: int, movement_speed: int = 100) -> None:
+    def __init__(self, position: Vector, z_index: int, movement_speed: int = 100) -> None:
         self.state: CharacterState = CharacterState.IDLE
         self.isFacingRight: bool = True
         rendering_controller: RenderingController_WithAnimation = RenderingController_WithAnimation(

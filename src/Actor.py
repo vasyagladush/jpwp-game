@@ -18,9 +18,9 @@ class ActorEventType(Enum):
 
 class Actor(Generic[RenderingControllerType], EventEmitter[ActorEventType]):
 
-    def __init__(self, position: Vector[int], rendering_controller: RenderingControllerType, z_index: int) -> None:
+    def __init__(self, position: Vector, rendering_controller: RenderingControllerType, z_index: int) -> None:
         super().__init__(ActorEventType)
-        self.position: Vector[int] = position
+        self.position: Vector = position
         self.rendering_controller: RenderingControllerType = rendering_controller
         self.z_index: int = z_index
         self.components: list[ActorComponent] = []
@@ -58,7 +58,7 @@ class Actor(Generic[RenderingControllerType], EventEmitter[ActorEventType]):
         return self.rendering_controller.render(self.position)
 
     @EventEmitter.emits(ActorEventType.SIZE_CHANGED)
-    def set_size(self, size: Vector[int]) -> None:
+    def set_size(self, size: Vector) -> None:
         self.rendering_controller.set_size(size)
         # TODO: add physical collision box set_size here
 
@@ -76,7 +76,7 @@ class Actor_TilemapCompatible(Actor, ABC):
     """An abstract class that represents an actor that can be used for a tilemap.
     """
     @abstractmethod
-    def __init__(self, position: Vector[int], z_index: int) -> None:
+    def __init__(self, position: Vector, z_index: int) -> None:
         pass
 
 

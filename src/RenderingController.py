@@ -12,15 +12,15 @@ class RenderingController(ABC):
     def __init__(self, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
         self.surface: Pointer[pygame.Surface] = surface
 
-    def blit(self, image: pygame.Surface, position: Vector[int]) -> None:
+    def blit(self, image: pygame.Surface, position: Vector) -> None:
         self.surface.holded_ref.blit(image, position.coordinates_to_tuple())
 
     @abstractmethod
-    def render(self, position: Vector[int]) -> None:
+    def render(self, position: Vector) -> None:
         pass
 
     @abstractmethod
-    def set_size(self, size: Vector[int]) -> None:
+    def set_size(self, size: Vector) -> None:
         pass
 
     @abstractmethod
@@ -45,12 +45,12 @@ class RenderingController_WithStaticImage(RenderingController):
         self.image = image
 
     @override
-    def render(self, position: Vector[int]) -> None:
+    def render(self, position: Vector) -> None:
         self.blit(
             self.image, position)
 
     @override
-    def set_size(self, size: Vector[int]) -> None:
+    def set_size(self, size: Vector) -> None:
         self.image = pygame.transform.scale(
             self.image, size.coordinates_to_tuple())
 
@@ -80,14 +80,14 @@ class RenderingController_WithAnimation(RenderingController):
         self._animation_controller.animation = animation
 
     @override
-    def render(self, position: Vector[int]) -> None:
+    def render(self, position: Vector) -> None:
         self._animation_controller.update()
         if self._animation_controller.current:
             self.blit(
                 self._animation_controller.get_current_image(), position)
 
     @override
-    def set_size(self, size: Vector[int]) -> None:
+    def set_size(self, size: Vector) -> None:
         # TODO: maybe add del statements on old frames and animation
         resized_frames: list[AnimationFrame] = [AnimationFrame(pygame.transform.scale(
             frame.image, size.coordinates_to_tuple()), frame.duration) for frame in self._animation_controller.animation.frames]

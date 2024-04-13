@@ -11,12 +11,12 @@ from constants import SCREEN_RESOLUTION
 
 
 class Level:
-    def __init__(self, actors: Sequence[Actor], background_color: pygame.Color = pygame.Color(0, 0, 0), render_area_size: tuple[int, int] = SCREEN_RESOLUTION, player_start_position: Vector[int] = Vector(0, 0)) -> None:
+    def __init__(self, actors: Sequence[Actor], background_color: pygame.Color = pygame.Color(0, 0, 0), render_area_size: tuple[int, int] = SCREEN_RESOLUTION, player_start_position: Vector = Vector(0, 0)) -> None:
         self._actors: list[Actor] = list(actors) + [Player().player]
         self._actors.sort(key=Actor.get_actor_z_index)
         self.background_color: pygame.Color = background_color
         self.render_area_size: tuple[int, int] = render_area_size
-        self.player_start_position: Vector[int] = player_start_position
+        self.player_start_position: Vector = player_start_position
 
     @property
     def actors(self) -> tuple[Actor, ...]:

@@ -41,7 +41,7 @@ class Game:
 
             # Camera surface offset update
             player_position: tuple[int,
-                                   int] = self.player.player.position.coordinates_to_tuple()
+                                   int] = self.player.player.position.coordinates_to_int_tuple()
             display_size: tuple[int, int] = self.display.display.get_size()
             current_player_image_size: tuple[int,
                                              int] = self.player.player.rendering_controller.get_current_size()
