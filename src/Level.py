@@ -7,7 +7,7 @@ from Actor import Actor
 from Display import Display
 from Player import Player
 from Vector import Vector
-from components import CollisionComponent
+from components.CollisionComponent import CollisionComponent
 from constants import SCREEN_RESOLUTION
 
 
@@ -23,15 +23,23 @@ class Level:
     def actors(self) -> tuple[Actor, ...]:
         return tuple(self._actors)
 
-    def add_actor(self, new_actor: Actor) -> None:
-        bisect.insort(self._actors, new_actor,
-                      key=Actor.get_actor_z_index)
-
-    def tick(self) -> None:
-        for actor in self._actors:
-            actor.tick()
-
     def render_tick(self) -> None:
         Display().level_surface.holded_ref.fill(self.background_color)
         for actor in self._actors:
             actor.render()
+
+    def tick(self):
+        self.handle_collisions()
+        for actor in self._actors:
+            actor.tick()
+            
+    def add_actor(self, new_actor: Actor) -> None:
+        bisect.insort(self._actors, new_actor, key=Actor.get_actor_z_index)
+
+    def handle_collisions(self):
+        for actor in self._actors:
+            if hasattr(actor, 'collision_component'):
+                for other_actor in self._actors:
+                    if actor != other_actor and hasattr(other_actor, 'collision_component'):
+                        if actor.collision_component.check_collision(other_actor.collision_component):
+                            actor.collision_component.resolve_collision(other_actor)
