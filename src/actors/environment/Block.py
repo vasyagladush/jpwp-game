@@ -6,6 +6,7 @@ from Actor import Actor, Actor_TilemapCompatible
 from Vector import Vector
 from RenderingController import RenderingController_WithStaticImage
 from utils.ImageUtil import ImageUtil
+from components.CollisionComponent import CollisionComponent
 
 
 class Block_TilemapCompatible(Actor_TilemapCompatible):
@@ -16,6 +17,8 @@ class Block_TilemapCompatible(Actor_TilemapCompatible):
         rendering_controller = RenderingController_WithStaticImage(
             Block_TilemapCompatible.image)
         Actor.__init__(self, position, rendering_controller, z_index)
+        self.collision_component = CollisionComponent(self, Vector(50, 50))
+        self.components.append(self.collision_component)
 
     @override
     def tick(self) -> None:

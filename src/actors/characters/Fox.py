@@ -7,6 +7,7 @@ from Character import Character
 from Vector import Vector
 from RenderingController import RenderingController_WithAnimation
 from utils.ImageUtil import ImageUtil
+from components.CollisionComponent import CollisionComponent
 
 
 class Fox(Character):
@@ -22,7 +23,8 @@ class Fox(Character):
 
     def __init__(self, position: Vector, z_index: int, movement_speed: int = 300) -> None:
         super().__init__(position, z_index, movement_speed)
-
+        self.collision_component = CollisionComponent(self, Vector(150, 150))
+        self.components.append(self.collision_component)
     @override
     def tick(self) -> None:
         super().tick()
