@@ -4,7 +4,7 @@ import pygame
 from Actor import Actor, ActorComponent, ActorEventType
 from Display import Display
 from Vector import Vector
-from constants import DEBUG_COLLISIONS
+from constants import SHOW_COLLISIONS
 from utils.EventEmitter import EventEmitter
 
 ActorComponentOwnerType = TypeVar('ActorComponentOwnerType', bound=Actor)
@@ -77,7 +77,7 @@ class CollisionComponent(EventEmitter[CollisionComponentEvents], ActorComponent[
         self.update_owned_by_position()
 
     def tick(self):
-        if DEBUG_COLLISIONS:
+        if SHOW_COLLISIONS:
             pygame.draw.rect(Display().level_surface.holded_ref,
                              pygame.Color(255, 0, 0, 50), self.rect)
         self.isOnGround = False
