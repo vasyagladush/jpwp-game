@@ -18,5 +18,5 @@ class TestComponent(ActorComponent[Actor]):
             self.owned_by.flip(True, False)
         pass
 
-    def on_flip(self, event_type: ActorEventType) -> None:
-        print(f"flipped at {pygame.time.get_ticks() / 1000}s")
+    def on_flip(self, event_type: ActorEventType) -> None: ...
+        # print(f"flipped at {pygame.time.get_ticks() / 1000}s")

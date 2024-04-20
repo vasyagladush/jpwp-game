@@ -13,14 +13,15 @@ RenderingControllerType = TypeVar(
 class ActorEventType(Enum):
     SIZE_CHANGED = auto()
     ANGLE_CHANGED = auto()
-    FLIPPED = auto()
+    FLIPPED = auto(),
+    POSITION_CHANGED = auto()
 
 
 class Actor(Generic[RenderingControllerType], EventEmitter[ActorEventType]):
 
     def __init__(self, position: Vector, rendering_controller: RenderingControllerType, z_index: int) -> None:
         super().__init__(ActorEventType)
-        self.position: Vector = position
+        self._position: Vector = position
         self.rendering_controller: RenderingControllerType = rendering_controller
         self.z_index: int = z_index
         self.components: list[ActorComponent] = []
@@ -30,6 +31,13 @@ class Actor(Generic[RenderingControllerType], EventEmitter[ActorEventType]):
         # TODO: check that private fields are not accessed where they should not be
         # TODO: check if we could load images only once (as a class property) instead of loading it every time a new instance is constructed
         # TODO: add a guide on how to use the code with python3.11 or less if someone has problems installing python3.12
+
+    def get_position(self):
+        return Vector(self._position)
+
+    @EventEmitter.emits(ActorEventType.POSITION_CHANGED)
+    def set_position(self, position: Vector):
+        self._position = position
 
     # Tick method
     def tick(self) -> None:
@@ -55,7 +63,7 @@ class Actor(Generic[RenderingControllerType], EventEmitter[ActorEventType]):
         """
         if position is not None:
             return self.rendering_controller.render(position)
-        return self.rendering_controller.render(self.position)
+        return self.rendering_controller.render(self._position)
 
     @EventEmitter.emits(ActorEventType.SIZE_CHANGED)
     def set_size(self, size: Vector) -> None:

@@ -1,11 +1,10 @@
 from abc import ABC
 from enum import Enum, auto
-from typing import override
+from typing import Any, override
 from Actor import Actor
 from Animation import Animation
 from RenderingController import RenderingController_WithAnimation
 from Vector import Vector
-from components.MovementComponent import MovementComponent
 
 
 class CharacterState(Enum):
@@ -21,14 +20,19 @@ class Character(Actor[RenderingController_WithAnimation], ABC):
     jumping_animation: Animation
     falling_animation: Animation
 
-    def __init__(self, position: Vector, z_index: int, movement_speed: int = 100) -> None:
+    def __init__(self, position: Vector, z_index: int) -> None:
         self.state: CharacterState = CharacterState.IDLE
         self.isFacingRight: bool = True
         rendering_controller: RenderingController_WithAnimation = RenderingController_WithAnimation(
             self.__class__.idle_animation)
         super().__init__(position, rendering_controller, z_index)
-        self.movement_component: MovementComponent = MovementComponent(self, movement_speed)
-        self.components.append(self.movement_component)
+        self.collision_component: CharacterCollisionComponent = CharacterCollisionComponent(
+            self, Vector(self.idle_animation.frames[0].image.get_size()))
+        self.movement_component: CharacterMovementComponent = CharacterMovementComponent(
+            self, gravity_enabled=True)
+        self.components.extend(
+            [self.movement_component, self.collision_component])
+        self.collision_component.add_event_subscription(CollisionComponentEvents.STAYING_ON_GROUND, self.onStayingOnGround)
 
     def set_animation(self, animation: Animation) -> None:
         if animation:
@@ -36,6 +40,16 @@ class Character(Actor[RenderingController_WithAnimation], ABC):
                 animation)
             if (not self.isFacingRight):
                 self.rendering_controller.flip(True, False)
+
+    def jump(self) -> None:
+        if self.state != CharacterState.JUMPING and self.state != CharacterState.FALLING:
+            self.movement_component.jump()
+
+    def onStayingOnGround(self, event_type: Any) -> None:
+        if (self.state == CharacterState.JUMPING or self.state == CharacterState.FALLING):
+            self.state = CharacterState.IDLE
+            self.set_animation(
+                self.__class__.idle_animation)
 
     @override
     def tick(self) -> None:
@@ -47,20 +61,21 @@ class Character(Actor[RenderingController_WithAnimation], ABC):
             self.flip(True, False)
 
         # State managing
-        if (self.state == CharacterState.JUMPING or self.state == CharacterState.FALLING and self.movement_component.velocity.y == 0):
-            self.state = CharacterState.IDLE
-            self.set_animation(
-                self.__class__.idle_animation)
-            
-        if (self.movement_component.velocity.y > 0):
+
+        # if (self.state == CharacterState.JUMPING or self.state == CharacterState.FALLING and self.movement_component.velocity.y == 0):
+        #     self.state = CharacterState.IDLE
+        #     self.set_animation(
+        #         self.__class__.idle_animation)
+
+        if (self.movement_component.velocity.y < 0):
             self.state = CharacterState.JUMPING
             self.set_animation(
                 self.__class__.jumping_animation)
-        elif (self.movement_component.velocity.y < 0):
+        elif (self.movement_component.velocity.y > 0):
             self.state = CharacterState.FALLING
             self.set_animation(
                 self.__class__.falling_animation)
-            
+
         elif (self.state == CharacterState.IDLE and self.movement_component.velocity.y == 0 and self.movement_component.velocity.x != 0):
             self.state = CharacterState.RUNNING
             self.set_animation(
@@ -69,3 +84,7 @@ class Character(Actor[RenderingController_WithAnimation], ABC):
             self.state = CharacterState.IDLE
             self.set_animation(
                 self.__class__.idle_animation)
+
+from components.CharacterMovementComponent import CharacterMovementComponent
+from components.CharacterCollisionComponent import CharacterCollisionComponent
+from components.CollisionComponent import CollisionComponentEvents

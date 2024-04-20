@@ -14,6 +14,10 @@ $ source ./venv/bin/activate
 **How to run**: `python3.12 src/Game.py`
 
 **Helpful info**: 
-- python3.12 venv: `sudo apt install python3.12-venv`
-- pygame-ce: `pip3.12 install pygame-ce`
-If you face an error: `AttributeError: module 'pkgutil' has no attribute 'ImpImporter'. Did you mean: 'zipimporter'?`, try `python3.12 -m pip install --upgrade setuptools`
+- python3.12 venv (if not installed): `sudo apt install python3.12-venv`
+- if you face an error: `AttributeError: module 'pkgutil' has no attribute 'ImpImporter'. Did you mean: 'zipimporter'?`, try `python3.12 -m pip install --upgrade setuptools`
+
+**If you have Python < 3.12**
+- switch to the `master-copy-for-3.11`
+
+**How to generate a level**: see `python src/level_editor/level_generator.py`

@@ -5,8 +5,6 @@ from pygame.key import ScancodeWrapper
 from InputController import InputController
 from Vector import Vector
 from actors.characters.Fox import Fox
-from components.GravityComponent import GravityComponent
-from components.MovementComponent import MovementComponent
 
 
 class Player():
@@ -15,18 +13,17 @@ class Player():
         @override
         def tick(self):
             keys: ScancodeWrapper = InputController().keys_state
-            movement_direction: Vector = Vector(0, 0)
+            x_movement_direction: int = 0
 
-            if keys[pygame.K_w] or keys[pygame.K_UP]:
-                movement_direction.y -= 1
-            if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-                movement_direction.y += 1
             if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-                movement_direction.x -= 1
+                x_movement_direction -= 1
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                movement_direction.x += 1
+                x_movement_direction += 1
 
-            self.movement_component.set_direction(movement_direction) 
+            self.movement_component.set_x_direction(x_movement_direction) 
+
+            if keys[pygame.K_SPACE]:
+                self.jump()
 
             super().tick()
 

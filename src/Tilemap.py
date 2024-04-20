@@ -1,9 +1,10 @@
 from io import TextIOWrapper
 import json
 from Actor import Actor_TilemapCompatible
-from typing import Optional, Type, TypeAlias, TypedDict
+from typing import Literal, Optional, Type, TypeAlias, TypedDict
 
 from Vector import Vector
+from constants import DEFAULT_TILE_SIZE
 
 
 class TilemapFileContentElementVector(TypedDict):
@@ -22,6 +23,7 @@ class TilemapFileContentElement(TypedDict):
     type: str
     z_index: int
     position: TilemapFileContentElementVector
+    offset: Optional[TilemapFileContentElementVector]
     transform: Optional[TilemapFileContentElementTransform]
 
 
@@ -32,7 +34,7 @@ TilemapFileContent: TypeAlias = list[TilemapFileContentElement]
 
 
 class Tilemap:
-    def __init__(self, path_to_tilemap_file: str, tile_size: int, type_to_actor_dict: dict[str, Type[Actor_TilemapCompatible]]) -> None:
+    def __init__(self, path_to_tilemap_file: str, type_to_actor_dict: dict[str, Type[Actor_TilemapCompatible]], tile_size: int = DEFAULT_TILE_SIZE) -> None:
         self.actors: list[Actor_TilemapCompatible] = []
 
         try:
@@ -42,22 +44,35 @@ class Tilemap:
             for tile in file_content:
                 # Creating an actor based on the type of the tile
                 actor_class: Type[Actor_TilemapCompatible] = type_to_actor_dict[tile["type"]]
+
+                position_offset: tuple[int, int] = (0, 0)
+                if 'offset' in tile and tile['offset'] is not None:
+                    position_offset = (
+                        tile['offset']['x'], tile['offset']['y'])
+
                 actor = actor_class(Vector(
-                    tile['position']['x'] * tile_size, tile['position']['y'] * tile_size), tile['z_index'])
+                    tile['position']['x'] * tile_size + position_offset[0], tile['position']['y'] * tile_size + position_offset[1]), tile['z_index'])
+
                 # Editing the actor's transformation
                 if 'transform' in tile and tile['transform'] is not None:
                     transform: TilemapFileContentElementTransform = tile['transform']
+
                     actor_size_vector: Vector = Vector(transform['size']['x'], transform['size']['x']) if 'size' in transform and transform['size'] is not None else Vector(
                         tile_size, tile_size)
+
                     actor.set_size(actor_size_vector)
+
                     flip_x: bool = transform['flip_x'] if 'flip_x' in transform and transform['flip_x'] is not None else False
                     flip_y: bool = transform['flip_y'] if 'flip_y' in transform and transform['flip_y'] else False
+
                     if flip_x or flip_y:
+
                         actor.flip(flip_x, flip_y)
                     if 'angle' in transform and transform['angle'] is not None:
                         actor.set_angle(transform['angle'])
                 else:
                     actor.set_size(Vector(tile_size, tile_size))
+
                 # Appending the actor to the list of created actors
                 self.actors.append(actor)
 

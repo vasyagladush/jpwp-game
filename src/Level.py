@@ -12,11 +12,12 @@ from constants import SCREEN_RESOLUTION
 
 
 class Level:
-    def __init__(self, actors: Sequence[Actor], background_color: pygame.Color = pygame.Color(0, 0, 0), render_area_size: tuple[int, int] = SCREEN_RESOLUTION, player_start_position: Vector = Vector(0, 0)) -> None:
+    def __init__(self, actors: Sequence[Actor], background_color: pygame.Color = pygame.Color(0, 0, 0), background_image: Optional[pygame.Surface] = None, render_area_size: tuple[int, int] = SCREEN_RESOLUTION, player_start_position: Vector = Vector(0, 0)) -> None:
         self._actors: list[Actor] = list(actors) + [Player().player]
         self._actors.sort(key=Actor.get_actor_z_index)
-        self.background_color: pygame.Color = background_color
         self.render_area_size: tuple[int, int] = render_area_size
+        self.background_color: pygame.Color = background_color
+        self.background_image: Optional[pygame.Surface] = pygame.transform.scale(background_image, self.render_area_size) if background_image else None
         self.player_start_position: Vector = player_start_position
 
     @property
@@ -25,6 +26,8 @@ class Level:
 
     def render_tick(self) -> None:
         Display().level_surface.holded_ref.fill(self.background_color)
+        if self.background_image:
+            Display().level_surface.holded_ref.blit(self.background_image, (0, 0))
         for actor in self._actors:
             actor.render()
 
@@ -41,5 +44,4 @@ class Level:
             if hasattr(actor, 'collision_component'):
                 for other_actor in self._actors:
                     if actor != other_actor and hasattr(other_actor, 'collision_component'):
-                        if actor.collision_component.check_collision(other_actor.collision_component):
-                            actor.collision_component.resolve_collision(other_actor)
+                        actor.collision_component.check_and_process_collision(other_actor.collision_component)

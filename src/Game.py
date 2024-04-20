@@ -11,9 +11,8 @@ from Clock import Clock
 from Display import Display
 from Level import Level
 from Player import Player
-from constants import FPS, SCREEN_RESOLUTION
+from constants import DEBUG_COLLISIONS, FPS, SCREEN_RESOLUTION
 from levels.level1.Level1 import Level1
-
 
 class Game:
     def __init__(self) -> None:
@@ -36,16 +35,21 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-            # Tick
-            self.level.tick()
+            if not DEBUG_COLLISIONS:
+                # Tick
+                self.level.tick()
 
-            # Render tick
-            self.level.render_tick()
-            self.hud.render_tick()
+                # Render tick
+                self.level.render_tick()
+                self.hud.render_tick()
+            else: 
+                self.level.render_tick()
+                self.level.tick()
+                self.hud.render_tick()
 
             # Camera surface offset update
             player_position: tuple[int,
-                                   int] = self.player.player.position.coordinates_to_int_tuple()
+                                   int] = self.player.player.get_position().coordinates_to_int_tuple()
             display_size: tuple[int, int] = self.display.display.get_size()
             current_player_image_size: tuple[int,
                                              int] = self.player.player.rendering_controller.get_current_size()
@@ -67,7 +71,7 @@ class Game:
     @level.setter
     def level(self, value) -> None:
         self._level: Level = value
-        self.player.player.position = self._level.player_start_position
+        self.player.player.set_position(self._level.player_start_position)
         self.display.set_level_surface_size(self._level.render_area_size)
 
 

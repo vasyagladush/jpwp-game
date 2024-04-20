@@ -1,4 +1,4 @@
-from typing import override
+from typing import Optional, override
 import pygame
 from Animation import Animation, AnimationController, AnimationFrame
 from Display import Display
@@ -37,36 +37,43 @@ class RenderingController(ABC):
 
 
 class RenderingController_WithStaticImage(RenderingController):
-    def __init__(self, image: pygame.Surface, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
+    def __init__(self, image: Optional[pygame.Surface] = None, surface: Pointer[pygame.Surface] = Display().level_surface) -> None:
         super().__init__(surface)
-        self.image: pygame.Surface = image
+        self.image: Optional[pygame.Surface] = image
 
     def set_image(self, image: pygame.Surface) -> None:
         self.image = image
 
     @override
     def render(self, position: Vector) -> None:
-        self.blit(
-            self.image, position)
+        if self.image:
+            self.blit(
+                self.image, position)
 
     @override
     def set_size(self, size: Vector) -> None:
-        self.image = pygame.transform.scale(
-            self.image, size.coordinates_to_tuple())
+        if self.image:
+            self.image = pygame.transform.scale(
+                self.image, size.coordinates_to_tuple())
 
     @override
     def set_angle(self, angle: int) -> None:
-        self.image = pygame.transform.rotate(
-            self.image, angle)
+        if self.image:
+            self.image = pygame.transform.rotate(
+                self.image, angle)
 
     @override
     def flip(self, x: bool, y: bool) -> None:
-        self.image = pygame.transform.flip(
-            self.image, x, y)
+        if self.image:
+            self.image = pygame.transform.flip(
+                self.image, x, y)
 
     @override
     def get_current_size(self) -> tuple[int, int]:
-        return self.image.get_size()
+        if self.image:
+            return self.image.get_size()
+        else:
+            return (0, 0)
 
 
 class RenderingController_WithAnimation(RenderingController):

@@ -10,16 +10,14 @@ from utils.ImageUtil import ImageUtil
 from components.CollisionComponent import CollisionComponent
 
 
-class Block_TilemapCompatible(Actor_TilemapCompatible):
-    image = ImageUtil.load_image('assets/block.png')
+class Tree_TilemapCompatible(Actor_TilemapCompatible):
+    image = ImageUtil.load_image('assets/colored_tree.png', True)
 
     @override
     def __init__(self,  position: Vector, z_index: int) -> None:
         rendering_controller = RenderingController_WithStaticImage(
-            Block_TilemapCompatible.image)
+            Tree_TilemapCompatible.image)
         Actor.__init__(self, position, rendering_controller, z_index)
-        self.collision_component = CollisionComponent(self, Vector(DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE))
-        self.components.append(self.collision_component)
 
     @override
     def tick(self) -> None:

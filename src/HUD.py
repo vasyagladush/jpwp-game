@@ -16,7 +16,7 @@ class HUD:
         if cls._instance is None:
             cls._instance = super().__new__(cls, *args, **kwargs)
             in_game_logo_animation: Animation = Animation([AnimationFrame(
-                pygame.transform.scale(img, (100, 100)), 150) for img in ImageUtil.load_images_from_dir('assets/sprites/item-feedback', True)])
+                pygame.transform.scale(img, (100, 100)), 150) for img in ImageUtil.load_images_from_dir('assets/sprites/star', True)])
             cls._instance.in_game_logo = RenderingController_WithAnimation(in_game_logo_animation,
                                                                            Pointer(Display().hud_surface))
         return cls._instance
