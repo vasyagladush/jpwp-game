@@ -18,6 +18,6 @@ $ source ./venv/bin/activate
 - if you face an error: `AttributeError: module 'pkgutil' has no attribute 'ImpImporter'. Did you mean: 'zipimporter'?`, try `python3.12 -m pip install --upgrade setuptools`
 
 **If you have Python < 3.12**
-- switch to the `master-copy-for-3.11`
+- switch to the `master-python-3.10`
 
 **How to generate a level**: see `python src/level_editor/level_generator.py`
