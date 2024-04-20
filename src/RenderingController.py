@@ -1,4 +1,4 @@
-from typing import Optional, override
+from typing import Optional
 import pygame
 from Animation import Animation, AnimationController, AnimationFrame
 from Display import Display
@@ -44,31 +44,26 @@ class RenderingController_WithStaticImage(RenderingController):
     def set_image(self, image: pygame.Surface) -> None:
         self.image = image
 
-    @override
     def render(self, position: Vector) -> None:
         if self.image:
             self.blit(
                 self.image, position)
 
-    @override
     def set_size(self, size: Vector) -> None:
         if self.image:
             self.image = pygame.transform.scale(
                 self.image, size.coordinates_to_tuple())
 
-    @override
     def set_angle(self, angle: int) -> None:
         if self.image:
             self.image = pygame.transform.rotate(
                 self.image, angle)
 
-    @override
     def flip(self, x: bool, y: bool) -> None:
         if self.image:
             self.image = pygame.transform.flip(
                 self.image, x, y)
 
-    @override
     def get_current_size(self) -> tuple[int, int]:
         if self.image:
             return self.image.get_size()
@@ -86,14 +81,12 @@ class RenderingController_WithAnimation(RenderingController):
     def set_animation(self, animation: Animation) -> None:
         self._animation_controller.animation = animation
 
-    @override
     def render(self, position: Vector) -> None:
         self._animation_controller.update()
         if self._animation_controller.current:
             self.blit(
                 self._animation_controller.get_current_image(), position)
 
-    @override
     def set_size(self, size: Vector) -> None:
         # TODO: maybe add del statements on old frames and animation
         resized_frames: list[AnimationFrame] = [AnimationFrame(pygame.transform.scale(
@@ -101,21 +94,18 @@ class RenderingController_WithAnimation(RenderingController):
         self._animation_controller.animation = Animation(
             resized_frames, self._animation_controller.animation.playmode)
 
-    @override
     def set_angle(self, angle: int) -> None:
         angled_frames: list[AnimationFrame] = [AnimationFrame(pygame.transform.rotate(
             frame.image, angle), frame.duration) for frame in self._animation_controller.animation.frames]
         self._animation_controller.animation = Animation(
             angled_frames, self._animation_controller.animation.playmode)
 
-    @override
     def flip(self, x: bool, y: bool) -> None:
         flipped_frames: list[AnimationFrame] = [AnimationFrame(pygame.transform.flip(
             frame.image, x, y), frame.duration) for frame in self._animation_controller.animation.frames]
         self._animation_controller.animation = Animation(
             flipped_frames, self._animation_controller.animation.playmode)
 
-    @override
     def get_current_size(self) -> tuple[int, int]:
         return self._animation_controller.current.get_size()
 

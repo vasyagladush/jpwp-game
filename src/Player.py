@@ -1,4 +1,3 @@
-from typing import override
 import pygame
 from pygame.key import ScancodeWrapper
 
@@ -10,7 +9,6 @@ from actors.characters.Fox import Fox
 class Player():
     """Singleton class that holds an instance of Player."""
     class PlayerCharacter(Fox):
-        @override
         def tick(self):
             keys: ScancodeWrapper = InputController().keys_state
             x_movement_direction: int = 0

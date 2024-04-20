@@ -1,17 +1,14 @@
-from os import access, login_tty
 import sys
 from typing import NoReturn
 import pygame
 
-from Animation import Animation, AnimationController, AnimationFrame
 from HUD import HUD
 from InputController import InputController
-from utils.ImageUtil import ImageUtil
 from Clock import Clock
 from Display import Display
 from Level import Level
 from Player import Player
-from constants import SHOW_COLLISIONS, FPS, SCREEN_RESOLUTION
+from constants import SHOW_COLLISIONS, FPS
 from levels.level1.Level1 import Level1
 
 class Game:

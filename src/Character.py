@@ -1,6 +1,6 @@
 from abc import ABC
 from enum import Enum, auto
-from typing import Any, override
+from typing import Any 
 from Actor import Actor
 from Animation import Animation
 from RenderingController import RenderingController_WithAnimation
@@ -51,7 +51,6 @@ class Character(Actor[RenderingController_WithAnimation], ABC):
             self.set_animation(
                 self.__class__.idle_animation)
 
-    @override
     def tick(self) -> None:
         super().tick()
 

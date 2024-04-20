@@ -1,7 +1,3 @@
-from typing import override
-
-import pygame
-
 from Actor import Actor, Actor_TilemapCompatible
 from Vector import Vector
 from RenderingController import RenderingController_WithStaticImage
@@ -13,7 +9,6 @@ from components.CollisionComponent import CollisionComponent
 class Block_TilemapCompatible(Actor_TilemapCompatible):
     image = ImageUtil.load_image('assets/block.png')
 
-    @override
     def __init__(self,  position: Vector, z_index: int) -> None:
         rendering_controller = RenderingController_WithStaticImage(
             Block_TilemapCompatible.image)
@@ -21,7 +16,6 @@ class Block_TilemapCompatible(Actor_TilemapCompatible):
         self.collision_component = CollisionComponent(self, Vector(DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE))
         self.components.append(self.collision_component)
 
-    @override
     def tick(self) -> None:
         super().tick()
 

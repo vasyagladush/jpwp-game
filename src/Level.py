@@ -7,7 +7,6 @@ from Actor import Actor
 from Display import Display
 from Player import Player
 from Vector import Vector
-from components.CollisionComponent import CollisionComponent
 from constants import SCREEN_RESOLUTION
 
 

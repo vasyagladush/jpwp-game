@@ -1,5 +1,3 @@
-from typing import override
-
 import pygame
 
 from Animation import Animation, AnimationFrame
@@ -25,7 +23,6 @@ class Fox(Character):
         self.collision_component.rect.width = self.collision_component.rect.width * 0.6
         self.collision_component.rect.height = self.collision_component.rect.height * 0.65
 
-    @override
     def tick(self) -> None:
         super().tick()
         # some other logic

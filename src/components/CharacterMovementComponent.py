@@ -1,4 +1,3 @@
-from typing import override
 from components.CollisionComponent import CollisionComponentEvents
 from components.MovementComponent import MovementComponent
 
@@ -12,7 +11,6 @@ class CharacterMovementComponent(MovementComponent['Character']):
         self.owned_by.collision_component.add_event_subscription(
             CollisionComponentEvents.STAYING_ON_GROUND, self.nullify_velocity_y)
 
-    @override
     def apply_gravity(self) -> None:
         if not self.owned_by.collision_component.isOnGround:
             super().apply_gravity()
