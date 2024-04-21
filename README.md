@@ -19,5 +19,11 @@ $ source ./venv/bin/activate
 
 **If you have Python < 3.12**
 - switch to the branch `master-python-3.10`
+- if you will copy some code from this file while doing tasks, remove all `@override` statements from that code
 
 **How to generate a level**: see `python src/level_editor/level_generator.py`
+
+**TASKS**
+1. Creating the `Enemy` class and placing an enemy on the level 
+- Copy a file `src/actors/characters/Fox.py` and rename it into `Enemy.py`, also rename the class `Fox` into `Enemy` in the new file
+- 
