@@ -75,5 +75,3 @@ class Player():
     @player.setter
     def player(self, value) -> None:
         self._player: Fox = value
-
-from actors.characters.enemy.Enemy import Enemy
