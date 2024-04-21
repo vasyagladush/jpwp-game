@@ -27,7 +27,7 @@ $ source ./venv/bin/activate
 1. Creating the `Enemy` class and placing an enemy on the level 
 - Copy the file [src/actors/characters/Fox.py](src/actors/characters/Fox.py) into [src/actors/characters/enemy](src/actors/characters/enemy) dir and rename it into `Enemy.py`, also rename the class `Fox` into `Enemy` in the new file
 - The enemy should use animation sprites provided under [assets/sprites/enemy](assets/sprites/enemy)
-- Place 1 enemy on the Level1 on PLAYABLEGROUND (see [src/levels/level1/Level1.py](src/levels/level1/Level1.py)) at position (500, 500)
+- Place 1 enemy on the Level1 on `PLAYABLEGROUND` (see [src/levels/level1/Level1.py](src/levels/level1/Level1.py)) at position (500, 500)
 - Take a screenshot of the game for UPEL where the enemy can be seen on the screen
 2. Adding a non-physical collision component to the `Enemy` class
 - uncomment [src/actors/characters/enemy/PlayerDetectorComponent.py](src/actors/characters/enemy/PlayerDetectorComponent.py)
@@ -36,6 +36,7 @@ $ source ./venv/bin/activate
 - set width and relative offset of the `PlayerDetectorComponent` so that it's at the center of the enemy and it's wide - something like this (if it takes too much time see the end of the README file):
 ![](player_detector_component_example.png)
 - take a similar screenshot for UPEL
+3. 
 
 
 
