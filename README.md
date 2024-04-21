@@ -31,7 +31,7 @@ $ source ./venv/bin/activate
 - Take a screenshot of the game for UPEL where the enemy can be seen on the screen
 2. Adding a non-physical collision component to the `Enemy` class
 - uncomment [src/actors/characters/enemy/PlayerDetectorComponent.py](src/actors/characters/enemy/PlayerDetectorComponent.py)
-- inside of the `Enemy` `__init__` add a PlayerDetectorComponent instance to `self.components` 
+- inside of the `Enemy` `__init__` add a `PlayerDetectorComponent` instance to `self.components`. Keep in mind to import the `PlayerDetectorComponent` class at the end of the file to prevent circular import issue
 - in [src/constants.py](src/constants.py) you can set `SHOW_COLLISIONS` to `True` to see collision boxes on the screen when the game is running
 - set width and relative offset of the `PlayerDetectorComponent` so that it's at the center of the enemy and it's wide - something like this (if it takes too much time see the end of the README file):
 ![](player_detector_component_example.png)
