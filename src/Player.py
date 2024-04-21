@@ -1,5 +1,4 @@
 from enum import Enum, auto
-from typing import override
 import pygame
 from pygame.key import ScancodeWrapper
 
@@ -16,7 +15,7 @@ class Player():
     """Singleton class that holds an instance of Player."""
 
     class PlayerCharacterCollisionComponent(CharacterCollisionComponent):
-        @override
+        
         def check_and_process_collision(self, other: CollisionComponent[Actor]) -> None:
             super().check_and_process_collision(other)
             # YOUR CODE HERE
@@ -41,7 +40,7 @@ class Player():
             self.dead = True
             self.rendering_controller = RenderingController_WithStaticImage() # type: ignore
 
-        @override
+        
         def tick(self):
             if not self.dead:
                 keys: ScancodeWrapper = InputController().keys_state

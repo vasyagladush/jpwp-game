@@ -1,5 +1,4 @@
 from Character import Character
-from typing import override
 from Actor import Actor
 from Vector import Vector
 from components.CollisionComponent import CollisionComponent
