@@ -17,7 +17,8 @@ class Level:
         self._actors.sort(key=Actor.get_actor_z_index)
         self.render_area_size: tuple[int, int] = render_area_size
         self.background_color: pygame.Color = background_color
-        self.background_image: Optional[pygame.Surface] = pygame.transform.scale(background_image, self.render_area_size) if background_image else None
+        self.background_image: Optional[pygame.Surface] = pygame.transform.scale(
+            background_image, self.render_area_size) if background_image else None
         self.player_start_position: Vector = player_start_position
 
     @property
@@ -35,13 +36,17 @@ class Level:
         self.handle_collisions()
         for actor in self._actors:
             actor.tick()
-            
+
     def add_actor(self, new_actor: Actor) -> None:
         bisect.insort(self._actors, new_actor, key=Actor.get_actor_z_index)
 
     def handle_collisions(self):
         for actor in self._actors:
-            if hasattr(actor, 'collision_component'):
-                for other_actor in self._actors:
-                    if actor != other_actor and hasattr(other_actor, 'collision_component'):
-                        actor.collision_component.check_and_process_collision(other_actor.collision_component)
+            for component in actor.components:
+                if isinstance(component, CollisionComponent):
+                    for other_actor in self._actors:
+                        if actor != other_actor:
+                            for other_actor_component in other_actor.components:
+                                if isinstance(other_actor_component, CollisionComponent):
+                                    component.check_and_process_collision(
+                                        other_actor_component)
