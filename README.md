@@ -80,7 +80,7 @@ $ source ./venv/bin/activate
       ![alt text](task-3-example.png)
 
 4. Make player disappear from the screen if it collided with an enemy:
-- go to [src/components/Player.py](src/components/Player.py) and in the `PlayerCharacterCollisionComponent` in the `check_and_process_collision` write a condition that checks if the player collides with an instance of an `Enemy` and `other.isPhysical` is `True` and then if the conditions is met paste this under the if statement: `self.owned_by.die() # type:ignore`
+- go to [src/Player.py](src/Player.py) and in the `PlayerCharacterCollisionComponent` in the `check_and_process_collision` write a condition that checks if the player collides with an instance of an `Enemy` and `other.isPhysical` is `True` and then if the conditions is met paste this under the if statement: `self.owned_by.die() # type:ignore`
 - send a screenshot like this to UPEL where the player is off the screen:
 ![alt text](task-4-example.png)
 
