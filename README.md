@@ -80,6 +80,9 @@ $ source ./venv/bin/activate
       ![alt text](task-3-example.png)
 
 4. Reload the level if the enemy collides with the player:
+- go to [src/components/Player.py](src/components/Player.py) and in the `PlayerCharacterCollisionComponent` in the `check_and_process_collision` write a condition that checks if the player collides with an instance of an `Enemy` and then if the conditions is met paste this under the if statement: `self.owned_by.die() # type:ignore`
+- send a screenshot like this to UPEL where the player is off the screen:
+![alt text](task-4-example.png)
 
 
 PlayerDetectorComponent width and offset respectively are: 300; (-80. 20)
