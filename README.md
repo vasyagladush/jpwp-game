@@ -26,6 +26,9 @@ $ source ./venv/bin/activate
 
 **How to generate a level**: see `python src/level_editor/level_generator.py`
 
+**PRESENTATION**
+https://docs.google.com/presentation/d/1yjGLa3u4cL7nUUC8xHlvnIIPi8vCxuQttyZGKqyvmGI
+
 **TASKS**
 
 1.  Creating the `Enemy` class and placing an enemy on the level
